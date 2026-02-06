@@ -139,7 +139,7 @@
   .btn-secondary{
     background: #fff;
     color: var(--brand);
-    border-color: rgba(18,168,132,0.45);
+    border: 1px solid var(--brand-hover);
   }
 
   .btn-secondary:hover{ background: var(--brand-hover); color: white;}

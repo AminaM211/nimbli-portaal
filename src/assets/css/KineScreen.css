@@ -355,6 +355,8 @@ h1{
   
     .kineSidebar {
       position: sticky;
+      display: flex;
+        flex-direction: column;
       top: 0;
       z-index: 10;
       padding: 16px;
@@ -362,7 +364,20 @@ h1{
       border-bottom: 2px solid #e6e6e6;
       background: #f7f7f7;
     }
-  
+
+    .sideNav {
+      flex-direction: row;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .sideLink {
+      padding: 10px 12px;
+      font-size: 16px;
+      width: fit-content;
+      align-items: center;
+    }
+
     .brand {
       margin-bottom: 14px;
     }
@@ -371,12 +386,6 @@ h1{
       width: 150px;
     }
   
-    .sideNav {
-      flex-direction: row;
-      gap: 10px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-    }
   
     .sideLink {
       flex: 0 0 auto;
