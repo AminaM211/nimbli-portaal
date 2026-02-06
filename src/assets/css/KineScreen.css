@@ -112,79 +112,9 @@ h1{
     background: #ffffff;
   }
   
-  .kineSidebar {
-    background: #f7f7f7;
-    border-right: 2px solid #e6e6e6;
-    padding: 36px 26px;
-    font-family: var(--font);
-  }
-  
-  .brand {
-    margin-bottom: 40px;
-  }
-  
-  .brandLogo {
-    width: 180px;
-    display: block;
-  }
-  
-  .brandSub {
-    color: #24b19b;
-    font-style: italic;
-    margin-top: 6px;
-    font-size: 18px;
-  }
-  
-  .sideNav {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-  
-  .sideLink {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    width: 100%;
-    padding: 16px 18px;
-    border-radius: 14px;
-    border: 0;
-    background: transparent;
-    color: #8c8c8c;
-    font-size: 22px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-  
-  .sideLink .icon {
-    width: 28px;
-    display: inline-flex;
-    justify-content: center;
-  }
-  
-  .sideLink.active {
-    background: var(--brand);
-    color: #ffffff;
-    box-shadow: var(--btn-shadow);
-  }
-  
-  .sideLink.disabled {
-    opacity: 1;
-    cursor: pointer;
-    color: #8c8c8c;
-  }
-  
-  
-  .sideLink.logout {
-    margin-top: 12px;
-    width: 54px;
-    justify-content: center;
-    padding: 14px 0;
-    border-radius: 12px;
-  }
   
   .kineMain {
-    padding: 56px 70px;
+    padding: 24px 70px;
   }
   
   .hello {

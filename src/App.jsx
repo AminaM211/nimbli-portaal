@@ -1,14 +1,13 @@
-import { useEffect } from "react"
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
-import { supabase } from "./supabase"
+import { Routes, Route, Link } from "react-router-dom"
 
 import HomeScreen from "./HomeScreen"
 import ChildScreen from "./ChildScreen"
 import KineScreen from "./KineScreen"
+import PatientDetails from "./PatientDetails"
+import { useEffect } from "react"
+import { supabase } from "./supabase"
 
 function App() {
-
-  // stille test: check of Supabase bereikbaar is
   useEffect(() => {
     const checkConnection = async () => {
       const { error } = await supabase
@@ -27,31 +26,21 @@ function App() {
   }, [])
 
   return (
-    <BrowserRouter>
-
-      {/* Navigatieknoppen */}
+    <>
+      {/* tijdelijke dev navigatie */}
       <nav style={{ padding: "1rem", display: "flex", gap: "1rem" }}>
-        <Link to="/">
-          <button>Home</button>
-        </Link>
-
-        <Link to="/kind">
-          <button>Kind</button>
-        </Link>
-
-        <Link to="/kinesist">
-          <button>Kinesist</button>
-        </Link>
+        <Link to="/">Home</Link>
+        <Link to="/kind">Kind</Link>
+        <Link to="/kinesist">Kinesist</Link>
       </nav>
 
       <Routes>
         <Route path="/" element={<HomeScreen />} />
-        <Route path="/homescreen" element={<HomeScreen />} />
         <Route path="/kind" element={<ChildScreen />} />
         <Route path="/kinesist" element={<KineScreen />} />
+        <Route path="/kinesist/patient/:id" element={<PatientDetails />} />
       </Routes>
-
-    </BrowserRouter>
+    </>
   )
 }
 
