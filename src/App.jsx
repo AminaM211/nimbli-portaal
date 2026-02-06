@@ -1,21 +1,40 @@
-import { useState } from "react"
+import { useEffect } from "react"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { supabase } from "./supabase"
+
 import HomeScreen from "./HomeScreen"
 import ChildScreen from "./ChildScreen"
 import KineScreen from "./KineScreen"
 
 function App() {
-  const [screen, setScreen] = useState("home")
+
+  // stille test: check of Supabase bereikbaar is
+  useEffect(() => {
+    const checkConnection = async () => {
+      const { error } = await supabase
+        .from("users")
+        .select("id")
+        .limit(1)
+
+      if (error) {
+        console.error("Supabase connectie fout:", error.message)
+      } else {
+        console.log("Supabase verbonden ✅")
+      }
+    }
+
+    checkConnection()
+  }, [])
 
   return (
-    <div>
-      <button onClick={() => setScreen("home")}>Home</button>
-      <button onClick={() => setScreen("child")}>Kind</button>
-      <button onClick={() => setScreen("kine")}>Kinesist</button>
-
-      {screen === "home" && <HomeScreen />}
-      {screen === "child" && <ChildScreen />}
-      {screen === "kine" && <KineScreen />}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomeScreen />} />
+        <Route path="/homescreen" element={<HomeScreen />} />
+        <Route path="/kind" element={<ChildScreen />} />
+        <Route path="/kinesist" element={<KineScreen />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
