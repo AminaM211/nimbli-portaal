@@ -17,29 +17,27 @@ export default function KineScreen() {
       {/* SIDEBAR */}
       <aside className="kineSidebar">
         <div className="brand">
-          <img className="brandLogo" src="../public/images/" alt="Nimbli" />
-          <div className="brandSub">kinesistendashboard</div>
+          <img className="brandLogo" src="/images/kinedash.svg" alt="Nimbli" />
         </div>
 
         <nav className="sideNav">
           <button className="sideLink active">
-            <span className="icon">▦</span>
+            <span className="icon"><img src="/images/dashboard.svg" alt="Nimbli" />
+          </span>
             Dashboard
           </button>
 
-          <button className="sideLink disabled">
-            <span className="icon">🏃</span>
-            Oefeningen
+          <button className="sideLink ">
+          <span className="icon"><img src="/images/oef-icon.svg" alt="Nimbli" /></span>
+          Oefeningen
           </button>
 
-          <button className="sideLink disabled">
-            <span className="icon">⚙</span>
-            Instellingen
+          <button className="sideLink ">
+          <span className="icon"><img src="/images/settings.svg" alt="Nimbli" /></span>          Instellingen
           </button>
 
           <button className="sideLink logout" title="Uitloggen">
-            <span className="icon">↩</span>
-          </button>
+          <span className="icon"><img src="/images/logout.svg" alt="Nimbli" /></span>          </button>
         </nav>
       </aside>
 
@@ -59,12 +57,12 @@ export default function KineScreen() {
         <section className="patients">
           <div className="patientsHeader">
             <h2>Mijn Patiënten</h2>
-            <button className="btnPrimary">Patiënt toevoegen</button>
+            <button className="btn btn-primary">Patiënt toevoegen</button>
           </div>
 
           <div className="searchRow">
             <div className="searchBox">
-              <span className="searchIcon">🔎</span>
+              <span className="searchIcon"><img src="/images/search-icon.svg" alt="" /></span>
               <input placeholder="Zoek patiënt..." />
             </div>
           </div>
@@ -73,11 +71,11 @@ export default function KineScreen() {
             <div className="emptyState">
               <img
                 className="monkey"
-                src="/images/monkey.png"
+                src="/images/EmptyState-geenpatienten.png"
                 alt="Geen patiënten"
               />
               <p>Je hebt nog geen patiënten</p>
-              <button className="btnPrimary">Patiënt toevoegen</button>
+              <button className="btn btn-primary">Patiënt toevoegen</button>
             </div>
           )}
         </section>

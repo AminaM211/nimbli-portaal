@@ -44,7 +44,7 @@ function HomeScreen() {
 
 
         <div className="right">
-          <img src="/public/images/hero-img.png" alt="Hero" className="hero-image" />
+          <img src="/images/hero-img.png" alt="Hero" className="hero-image" />
         </div>
       </div>
 
