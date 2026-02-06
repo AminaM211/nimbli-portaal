@@ -1,11 +1,12 @@
 import { Routes, Route, Link } from "react-router-dom"
+import { useEffect } from "react"
+import { supabase } from "./supabase"
 
 import HomeScreen from "./HomeScreen"
 import ChildScreen from "./ChildScreen"
 import KineScreen from "./KineScreen"
 import PatientDetails from "./PatientDetails"
-import { useEffect } from "react"
-import { supabase } from "./supabase"
+import PoseDemo from "./PoseDemo"
 
 function App() {
   useEffect(() => {
@@ -32,6 +33,7 @@ function App() {
         <Link to="/">Home</Link>
         <Link to="/kind">Kind</Link>
         <Link to="/kinesist">Kinesist</Link>
+        <Link to="/pose-demo">Pose demo</Link>
       </nav>
 
       <Routes>
@@ -39,6 +41,7 @@ function App() {
         <Route path="/kind" element={<ChildScreen />} />
         <Route path="/kinesist" element={<KineScreen />} />
         <Route path="/kinesist/patient/:id" element={<PatientDetails />} />
+        <Route path="/pose-demo" element={<PoseDemo />} />
       </Routes>
     </>
   )
