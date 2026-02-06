@@ -17,6 +17,9 @@ export default function KineScreen() {
   const [showForm, setShowForm] = useState(false)
   const [name, setName] = useState("")
   const [age, setAge] = useState("")
+  const [selectedPatient, setSelectedPatient] = useState(null)
+  const [selectedExercise, setSelectedExercise] = useState("")
+  const [frequency, setFrequency] = useState(3)
 
   // 🔹 patiënten ophalen bij laden
   useEffect(() => {
@@ -57,6 +60,29 @@ export default function KineScreen() {
       setAge("")
       setShowForm(false)
       fetchPatients() // 🔁 lijst updaten
+    }
+  }
+
+  const assignExercise = async () => {
+    if (!selectedPatient || !selectedExercise) return
+  
+    const { error } = await supabase.from("assigned_exercises").insert([
+      {
+        child_id: selectedPatient.id,
+        exercise_id: selectedExercise,
+        frequency: frequency,
+        completed: false
+      }
+    ])
+  
+    if (error) {
+      console.error("Fout bij toewijzen:", error)
+      alert("Oefening kon niet toegewezen worden")
+    } else {
+      alert(`Oefening toegewezen aan ${selectedPatient.name}`)
+      setSelectedPatient(null)
+      setSelectedExercise("")
+      setFrequency(3)
     }
   }
 
@@ -106,8 +132,8 @@ export default function KineScreen() {
           ))}
         </section>
 
-        {/* PATIËNTEN */}
-        <section className="patients">
+              {/* PATIËNTEN */}
+              <section className="patients">
           <div className="patientsHeader">
             <h2>Mijn Patiënten</h2>
             <button
@@ -158,18 +184,72 @@ export default function KineScreen() {
               />
               <p>Je hebt nog geen patiënten</p>
             </div>
-          ) : (
+          ) : (     
             <ul className="patientList">
               {patients.map((p) => (
                 <li key={p.id} className="patientItem">
-                  <span className="patientName">{p.name}</span>
-                  <span className="patientAge">{p.age} jaar</span>
+                  <div>
+                    <strong>{p.name}</strong> – {p.age} jaar
+                  </div>
+
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => setSelectedPatient(p)}
+                  >
+                    Oefeningen toewijzen
+                  </button>
                 </li>
               ))}
             </ul>
           )}
+
+          {/* 👉 HIER KOMT HET TOEWIJS-BLOK */}
+          {selectedPatient && (
+            <div className="assignExerciseBox">
+              <h3>Oefeningen toewijzen aan {selectedPatient.name}</h3>
+
+              <select
+                value={selectedExercise}
+                onChange={(e) => setSelectedExercise(e.target.value)}
+              >
+                <option value="">Kies een oefening</option>
+                {exercises.map((e) => (
+                  <option key={e.id} value={e.id}>
+                    {e.title}
+                  </option>
+                ))}
+              </select>
+
+              <input
+                type="number"
+                min="1"
+                placeholder="Frequentie per week"
+                value={frequency}
+                onChange={(e) => setFrequency(e.target.value)}
+              />
+
+              <div style={{ marginTop: "1rem" }}>
+                <button className="btn btn-primary" onClick={assignExercise}>
+                  Toewijzen
+                </button>
+
+                <button
+                  className="btn"
+                  onClick={() => setSelectedPatient(null)}
+                  style={{ marginLeft: "0.5rem" }}
+                >
+                  Annuleren
+                </button>
+              </div>
+            </div>
+          )}
+
         </section>
       </main>
     </div>
+
+    
   )
+
+  
 }
