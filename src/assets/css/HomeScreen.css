@@ -5,6 +5,8 @@
     --bg:#ffffff;
     --btn:#55b49a;
     --btn-dark:#44a88d;
+    --font: "Nunito", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
   
         /* Buttons */
         --btn: 18px;     /* Nunito Black */
@@ -26,10 +28,18 @@
   
   body{
     margin:0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Cabinet Grotesk', system-ui, sans-serif;
     background: var(--bg);
     color: var(--text);
   }
+
+  h1{ 
+    font-weight: 800; 
+    font-size: 36px; 
+    line-height: 1.15; 
+    margin: 0 0 16px; 
+    font-family: var(--font); 
+}
   
   .page{
     min-height:100vh;
