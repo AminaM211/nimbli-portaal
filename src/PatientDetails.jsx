@@ -227,18 +227,116 @@ export default function PatientDetailsScreen() {
 
         {/* OEFENINGEN TAB */}
         {activeTab === "Oefeningen" && (
-          <ul>
-            {assignedExercises.length === 0 ? (
-              <li>Geen oefeningen toegewezen</li>
-            ) : (
-              assignedExercises.map((a) => (
-                <li key={a.id}>
-                  <strong>{a.exercises?.title}</strong> – {a.frequency}× / week
-                </li>
-              ))
-            )}
-          </ul>
-        )}
+  <div className="pdExercises">
+    <div className="pdExercisesHeader">
+      <div>
+        <h2 className="pdH2">Actief oefenprogramma</h2>
+        <p className="pdSub">
+          {assignedExercises.length} oefeningen • Gemiddeld{" "}
+          {assignedExercises.length === 0
+            ? "0%"
+            : `${Math.round(
+                assignedExercises.reduce((acc, a) => {
+                  // als je later echte % hebt: a.progress (0-100)
+                  const pct = typeof a.progress === "number" ? a.progress : (a.completed ? 100 : 0)
+                  return acc + pct
+                }, 0) / assignedExercises.length
+              )}%`}{" "}
+          voltooiing
+        </p>
+      </div>
+    </div>
+
+    {assignedExercises.length === 0 ? (
+      <div className="pdEmptyCard">
+        Geen oefeningen toegewezen
+      </div>
+    ) : (
+      <div className="pdExerciseList">
+        {assignedExercises.map((a) => {
+          const title = a.exercises?.title || "Oefening"
+          const difficulty = a.difficulty || "Makkelijk" // later uit DB
+          const category = a.category || "Mobiliteit" // later uit DB
+
+          const duration = a.duration || "2 min" // later uit DB
+          const reps = a.reps || "10× herhalingen" // later uit DB
+          const freqLabel =
+            typeof a.frequency === "number"
+              ? `${a.frequency}× / week`
+              : "Dagelijks"
+
+          const pct =
+            typeof a.progress === "number"
+              ? Math.max(0, Math.min(100, a.progress))
+              : a.completed
+              ? 100
+              : 0
+
+          const lastDone = a.last_done || "Vandaag" // later uit DB
+          const icon = a.icon || "⭐" // later uit DB (emoji of url)
+
+          return (
+            <div key={a.id} className="pdExerciseCard">
+              <div className="pdExerciseIcon" aria-hidden="true">
+                <span>{icon}</span>
+              </div>
+
+              <div className="pdExerciseBody">
+                <div className="pdExerciseTopRow">
+                  <div className="pdExerciseTitleWrap">
+                    <h3 className="pdExerciseTitle">{title}</h3>
+
+                    <div className="pdExerciseMetaRow">
+                      <span className={`pdPill ${difficulty === "Makkelijk" ? "green" : "green"}`}>
+                        {difficulty}
+                      </span>
+                      <span className="pdDot">•</span>
+                      <span className="pdMetaText">{category}</span>
+                    </div>
+                  </div>
+
+                  <button className="pdKebab" type="button" aria-label="Meer opties">
+                    ⋮
+                  </button>
+                </div>
+
+                <div className="pdExerciseInfoGrid">
+                  <div className="pdInfoBlock">
+                    <div className="pdInfoLabel">Duur</div>
+                    <div className="pdInfoValue">{duration}</div>
+                  </div>
+
+                  <div className="pdInfoBlock">
+                    <div className="pdInfoLabel">Herhalingen</div>
+                    <div className="pdInfoValue">{reps}</div>
+                  </div>
+
+                  <div className="pdInfoBlock">
+                    <div className="pdInfoLabel">Frequentie</div>
+                    <div className="pdInfoValue">{freqLabel}</div>
+                  </div>
+                </div>
+
+                <div className="pdCompletion">
+                  <div className="pdCompletionLabel">Voltooiing</div>
+
+                  <div className="pdProgressRow">
+                    <div className="pdProgressBar">
+                      <div className="pdProgressFill" style={{ width: `${pct}%` }} />
+                    </div>
+                    <div className="pdPct">{pct}%</div>
+                  </div>
+
+                  <div className="pdLastDone">Laatst voltooid: {lastDone}</div>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    )}
+  </div>
+)}
       </div>
     </div>
   )
