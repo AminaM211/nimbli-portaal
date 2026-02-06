@@ -18,6 +18,7 @@ export default function PatientDetailsScreen() {
   const [selectedExercise, setSelectedExercise] = useState("")
   const [frequency, setFrequency] = useState(3)
   const [activeTab, setActiveTab] = useState("Overzicht")
+  const [successMessage, setSuccessMessage] = useState("")
 
   /* -------------------------
      DATA FETCHING
@@ -89,6 +90,8 @@ export default function PatientDetailsScreen() {
     ])
 
     if (!error) {
+      setSuccessMessage("Oefening succesvol toegewezen 🎉")
+
       setShowAssign(false)
       setSelectedExercise("")
       setFrequency(3)
@@ -211,6 +214,12 @@ export default function PatientDetailsScreen() {
             </button>
           </div>
         )}
+
+      {successMessage && (
+        <div className="successAlert">
+          {successMessage}
+        </div>
+      )}
 
         {/* TABS */}
         <div className="pdTabs">
