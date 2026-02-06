@@ -13,6 +13,13 @@ export default function PatientDetails({ patient, onBack }) {
     parentPhone: "+31 6 1234 5678"
   }
 
+  const initials = (fullName) => {
+    const parts = (fullName || "").trim().split(/\s+/).filter(Boolean)
+    return parts
+      .slice(0, 2)
+      .map((w) => w[0]?.toUpperCase())
+      .join("")
+  }
   const tabs = ["Overzicht", "Sessies", "Oefeningen", "Logboek"]
 
   return (
@@ -24,8 +31,9 @@ export default function PatientDetails({ patient, onBack }) {
       </div>
 
       <section className="pdHeaderCard">
+        <div className="flex">
         <div className="pdHeaderLeft">
-          <div className="pdAvatar" />
+          <div className="pdAvatar">{initials(p.name)}</div>
           <div className="pdHeadText">
             <div className="pdNameRow">
               <h2 className="pdName">{p.name}</h2>
@@ -37,7 +45,8 @@ export default function PatientDetails({ patient, onBack }) {
         </div>
 
         <div className="pdQr">
-          <img src="/images/qr.svg" alt="QR" />
+          <img src="/images/QR.svg" alt="QR" />
+        </div>
         </div>
 
         <div className="pdDivider" />
@@ -50,11 +59,11 @@ export default function PatientDetails({ patient, onBack }) {
 
           <div className="pdContactRight">
             <div className="pdContactItem">
-              <img src="/images/mail.svg" alt="" />
+              <img src="/images/mail-icon.svg" alt="" />
               <span>{p.parentEmail}</span>
             </div>
             <div className="pdContactItem">
-              <img src="/images/phone.svg" alt="" />
+              <img src="/images/phone-icon.svg" alt="" />
               <span>{p.parentPhone}</span>
             </div>
           </div>
