@@ -286,7 +286,7 @@ h1{
     .kineSidebar {
       position: sticky;
       display: flex;
-        flex-direction: column;
+    flex-direction: column;
       top: 0;
       z-index: 10;
       padding: 16px;

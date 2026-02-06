@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { supabase } from "./supabase"
 import "./assets/css/KineScreen.css"
+import "./assets/css/style.css"
 import KineSidebar from "./components/KineSidebar"
 
 export default function KineScreen() {
