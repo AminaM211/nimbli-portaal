@@ -118,6 +118,20 @@ export default function KineScreen() {
             </button>
           </div>
 
+          <div className="searchRow">
+            <div className="searchBox">
+              <span className="searchIcon">
+                <img src="/images/search-icon.svg" alt="" />
+              </span>
+              <input
+                placeholder="Zoek patiënt..."
+                // value={query}
+                // onChange={(e) => setQuery(e.target.value)}
+              />
+            </div>
+          </div>
+
+
           {/* FORMULIER */}
           {showForm && (
             <div className="addPatientForm">
@@ -148,26 +162,49 @@ export default function KineScreen() {
             </div>
           )}
 
-          {/* LIJST OF EMPTY STATE */}
-          {patients.length === 0 && !showForm ? (
-            <div className="emptyState">
-              <img
-                className="monkey"
-                src="/images/EmptyState-geenpatienten.png"
-                alt="Geen patiënten"
-              />
-              <p>Je hebt nog geen patiënten</p>
-            </div>
-          ) : (
-            <ul className="patientList">
-              {patients.map((p) => (
-                <li key={p.id} className="patientItem">
-                  <span className="patientName">{p.name}</span>
-                  <span className="patientAge">{p.age} jaar</span>
-                </li>
-              ))}
-            </ul>
-          )}
+{patients.length === 0 && !showForm ? (
+  <div className="emptyState">
+    <img
+      className="monkey"
+      src="/images/EmptyState-geenpatienten.png"
+      alt="Geen patiënten"
+    />
+    <p>Je hebt nog geen patiënten</p>
+  </div>
+) : (
+  <div className="patientsGrid">
+    {patients.map((p) => (
+      <div key={p.id} className="patientCard">
+        <div className="pcTop">
+          <div className="avatar">
+            {p.name?.split(" ").map(w => w[0]).slice(0,2).join("").toUpperCase()}
+          </div>
+
+          <div className="pcInfo">
+            <div className="pcName">{p.name}</div>
+            <div className="pcAge">{p.age} jaar</div>
+          </div>
+
+          <div className="trend">↗ +23%</div>
+        </div>
+
+        <div className="pcProgram">knie revalidatie</div>
+
+        <div className="pcLast">
+          <span className="dot" />
+          Laatste sessie: Vandaag
+        </div>
+
+        <div className="pcProgress">
+          <div className="bar">
+            <div className="fill" style={{ width: "60%" }} />
+          </div>
+          <div className="pct">60%</div>
+        </div>
+      </div>
+    ))}
+  </div>
+)}
         </section>
       </main>
     </div>

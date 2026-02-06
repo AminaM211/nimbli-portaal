@@ -553,4 +553,110 @@ h1{
       grid-template-columns: 1fr;
     }
   }
+  .patientsGrid{
+    display:grid;
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+    gap: 22px;
+    margin-top: 22px;
+  }
   
+  .patientCard{
+    border: 1px solid #e6e6e6;
+    border-radius: 16px;
+    padding: 18px 18px 16px;
+    background:#fff;
+  }
+  
+  .pcTop{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 14px;
+  }
+  
+  .avatar{
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background:#7a7a7a;
+    color:#fff;
+    display:grid;
+    place-items:center;
+    font-weight: 800;
+    flex: 0 0 auto;
+  }
+  
+  .pcInfo{
+    flex:1;
+    min-width: 0;
+  }
+  
+  .pcName{
+    font-weight: 800;
+    font-size: 18px;
+  }
+  
+  .pcAge{
+    color: rgba(11,27,24,0.60);
+    margin-top: 4px;
+  }
+  
+  .trend{
+    color:#7bbd76;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+  
+  .pcProgram{
+    margin-top: 14px;
+    color: rgba(11,27,24,0.80);
+  }
+  
+  .pcLast{
+    margin-top: 14px;
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    color: rgba(11,27,24,0.80);
+  }
+  
+  .dot{
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background:#52b34a;
+    display:inline-block;
+  }
+  
+  .pcProgress{
+    margin-top: 14px;
+    display:flex;
+    align-items:center;
+    gap: 14px;
+  }
+  
+  .bar{
+    flex:1;
+    height: 8px;
+    background:#eeeeee;
+    border-radius: 999px;
+    overflow:hidden;
+  }
+  
+  .fill{
+    height: 100%;
+    background:#e8c15f;
+    border-radius: 999px;
+  }
+  
+  .pct{
+    width: 44px;
+    text-align:right;
+    color: rgba(11,27,24,0.60);
+    font-weight: 700;
+  }
+  
+  /* responsive */
+  @media (max-width: 980px){
+    .patientsGrid{ grid-template-columns: 1fr; }
+  }  
