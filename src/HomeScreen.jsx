@@ -16,7 +16,7 @@ function HomeScreen() {
 
             <label className="remember">
               <input type="checkbox" />
-              <span>Onthoud mij.</span>
+              <span>Onthoudd mij.</span>
             </label>
 
             <button className="btn btn-primary" type="submit">
