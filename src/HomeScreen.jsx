@@ -23,7 +23,7 @@ function HomeScreen() {
               Inloggen
             </button>
 
-            <button className="btn btn-outline" type="button">
+            <button className="btn btn-secondary" type="button">
               Aanmelden met code
             </button>
 
@@ -31,13 +31,20 @@ function HomeScreen() {
               Wachtwoord vergeten? Klik hier
             </a>
           </form>
+
+          <div className="Registreren">
+        <p className="account" href="#">
+              Nog geen account?
+          </p>
+        <button className="btn btn-secondary" type="button">
+              Registreer je praktijk
+          </button>
+        </div>
         </div>
 
+
         <div className="right">
-          <div className="img-placeholder" aria-label="placeholder image">
-            <span className="x x1" />
-            <span className="x x2" />
-          </div>
+          <img src="/public/images/hero-img.png" alt="Hero" className="hero-image" />
         </div>
       </div>
 
