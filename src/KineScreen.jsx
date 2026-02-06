@@ -144,6 +144,20 @@ export default function KineScreen() {
             </button>
           </div>
 
+          <div className="searchRow">
+            <div className="searchBox">
+              <span className="searchIcon">
+                <img src="/images/search-icon.svg" alt="" />
+              </span>
+              <input
+                placeholder="Zoek patiënt..."
+                // value={query}
+                // onChange={(e) => setQuery(e.target.value)}
+              />
+            </div>
+          </div>
+
+
           {/* FORMULIER */}
           {showForm && (
             <div className="addPatientForm">
@@ -184,66 +198,16 @@ export default function KineScreen() {
               />
               <p>Je hebt nog geen patiënten</p>
             </div>
-          ) : (     
+          ) : (
             <ul className="patientList">
               {patients.map((p) => (
                 <li key={p.id} className="patientItem">
-                  <div>
-                    <strong>{p.name}</strong> – {p.age} jaar
-                  </div>
-
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => setSelectedPatient(p)}
-                  >
-                    Oefeningen toewijzen
-                  </button>
+                  <span className="patientName">{p.name}</span>
+                  <span className="patientAge">{p.age} jaar</span>
                 </li>
               ))}
             </ul>
           )}
-
-          {/* 👉 HIER KOMT HET TOEWIJS-BLOK */}
-          {selectedPatient && (
-            <div className="assignExerciseBox">
-              <h3>Oefeningen toewijzen aan {selectedPatient.name}</h3>
-
-              <select
-                value={selectedExercise}
-                onChange={(e) => setSelectedExercise(e.target.value)}
-              >
-                <option value="">Kies een oefening</option>
-                {exercises.map((e) => (
-                  <option key={e.id} value={e.id}>
-                    {e.title}
-                  </option>
-                ))}
-              </select>
-
-              <input
-                type="number"
-                min="1"
-                placeholder="Frequentie per week"
-                value={frequency}
-                onChange={(e) => setFrequency(e.target.value)}
-              />
-
-              <div style={{ marginTop: "1rem" }}>
-                <button className="btn btn-primary" onClick={assignExercise}>
-                  Toewijzen
-                </button>
-
-                <button
-                  className="btn"
-                  onClick={() => setSelectedPatient(null)}
-                  style={{ marginLeft: "0.5rem" }}
-                >
-                  Annuleren
-                </button>
-              </div>
-            </div>
-          )}
-
         </section>
       </main>
     </div>
