@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { supabase } from "./supabase"
 import "./assets/css/KineScreen.css"
-import PatientDetails from "./PatientDetails.jsx"
+import KineSidebar from "./components/KineSidebar"
 
 export default function KineScreen() {
+  const navigate = useNavigate()
   const kinesiName = "Anne"
 
   const stats = [
@@ -17,7 +19,6 @@ export default function KineScreen() {
   const [showForm, setShowForm] = useState(false)
   const [name, setName] = useState("")
   const [age, setAge] = useState("")
-  const [selectedPatient, setSelectedPatient] = useState(null)
 
   useEffect(() => {
     fetchPatients()
@@ -42,11 +43,7 @@ export default function KineScreen() {
     if (!name.trim() || !age) return
 
     const { error } = await supabase.from("users").insert([
-      {
-        name: name.trim(),
-        age: Number(age),
-        role: "child"
-      }
+      { name: name.trim(), age: Number(age), role: "child" }
     ])
 
     if (error) {
@@ -69,89 +66,15 @@ export default function KineScreen() {
       .join("")
   }
 
-  // ✅ DETAILS PAGE
-  if (selectedPatient) {
-    return (
-      <div className="kine">
-        <aside className="kineSidebar">
-          <div className="brand">
-            <img className="brandLogo" src="/images/kinedash.svg" alt="Nimbli" />
-          </div>
-
-          <nav className="sideNav">
-            <button className="sideLink active" onClick={() => setSelectedPatient(null)}>
-              <span className="icon">
-                <img src="/images/dashboard.svg" alt="" />
-              </span>
-              Dashboard
-            </button>
-
-            <button className="sideLink">
-              <span className="icon">
-                <img src="/images/oef-icon.svg" alt="" />
-              </span>
-              Oefeningen
-            </button>
-
-            <button className="sideLink">
-              <span className="icon">
-                <img src="/images/settings.svg" alt="" />
-              </span>
-              Instellingen
-            </button>
-          </nav>
-        </aside>
-
-        <main className="kineMain">
-          <PatientDetails
-            patient={{
-              ...selectedPatient,
-              startDate: selectedPatient.startDate || "2026-02-15",
-              goal: selectedPatient.goal || "Motorische ontwikkeling ondersteunen",
-              parentName: selectedPatient.parentName || "Sarah Jansen",
-              parentRole: selectedPatient.parentRole || "Ouder/verzorger",
-              parentEmail: selectedPatient.parentEmail || "sarah.jansen@email.com",
-              parentPhone: selectedPatient.parentPhone || "+31 6 1234 5678"
-            }}
-            onBack={() => setSelectedPatient(null)}
-          />
-        </main>
-      </div>
-    )
+  const openPatient = (p) => {
+    // ✅ dit gaat naar een echt apart scherm: /kinesist/patient/:id
+    navigate(`/kinesist/patient/${p.id}`)
   }
 
-  // ✅ DASHBOARD
   return (
     <div className="kine">
       {/* SIDEBAR */}
-      <aside className="kineSidebar">
-        <div className="brand">
-          <img className="brandLogo" src="/images/kinedash.svg" alt="Nimbli" />
-        </div>
-
-        <nav className="sideNav">
-          <button className="sideLink active">
-            <span className="icon">
-              <img src="/images/dashboard.svg" alt="" />
-            </span>
-            Dashboard
-          </button>
-
-          <button className="sideLink">
-            <span className="icon">
-              <img src="/images/oef-icon.svg" alt="" />
-            </span>
-            Oefeningen
-          </button>
-
-          <button className="sideLink">
-            <span className="icon">
-              <img src="/images/settings.svg" alt="" />
-            </span>
-            Instellingen
-          </button>
-        </nav>
-      </aside>
+      <KineSidebar />
 
       {/* CONTENT */}
       <main className="kineMain">
@@ -212,6 +135,7 @@ export default function KineScreen() {
             </div>
           )}
 
+          {/* EMPTY / GRID */}
           {patients.length === 0 && !showForm ? (
             <div className="emptyState">
               <img
@@ -227,11 +151,11 @@ export default function KineScreen() {
                 <div
                   key={p.id}
                   className="patientCard"
-                  onClick={() => setSelectedPatient(p)}
+                  onClick={() => openPatient(p)}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") setSelectedPatient(p)
+                    if (e.key === "Enter") openPatient(p)
                   }}
                 >
                   <div className="pcTop">

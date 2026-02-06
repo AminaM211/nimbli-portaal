@@ -1,6 +1,7 @@
 /* ✅ nieuw bestand: src/assets/css/PatientDetailsScreen.css */
 .pd{
     width: 100%;
+    padding: 24px 70px;
   }
   
   .pdTopBar{
@@ -16,12 +17,9 @@
     gap: 10px;
     color: rgba(11,27,24,0.75);
     font-weight: 700;
+    padding: 0;
   }
-  
-  .pdBack span{
-    text-decoration: underline;
-  }
-  
+   
   .pdHeaderCard{
     border: 1px solid #e6e6e6;
     border-radius: 16px;
