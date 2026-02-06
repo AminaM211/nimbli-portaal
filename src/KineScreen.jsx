@@ -1,24 +1,24 @@
 import { useEffect, useState } from "react"
 import { supabase } from "./supabase"
 import "./assets/css/KineScreen.css"
+import PatientDetails from "./PatientDetails.jsx"
 
 export default function KineScreen() {
   const kinesiName = "Anne"
 
-  // demo stats (mag later dynamisch)
   const stats = [
     { value: "35", label: "Patiënten" },
     { value: "25%", label: "Gemiddelde therapietrouw" },
     { value: "87%", label: "Compliance rate" }
   ]
 
-  // 🔹 state
+  // state
   const [patients, setPatients] = useState([])
   const [showForm, setShowForm] = useState(false)
   const [name, setName] = useState("")
   const [age, setAge] = useState("")
+  const [selectedPatient, setSelectedPatient] = useState(null)
 
-  // 🔹 patiënten ophalen bij laden
   useEffect(() => {
     fetchPatients()
   }, [])
@@ -32,18 +32,18 @@ export default function KineScreen() {
 
     if (error) {
       console.error("Fout bij ophalen patiënten:", error)
-    } else {
-      setPatients(data)
+      return
     }
+
+    setPatients(data || [])
   }
 
-  // 🔹 patiënt toevoegen
   const addPatient = async () => {
-    if (!name || !age) return
+    if (!name.trim() || !age) return
 
     const { error } = await supabase.from("users").insert([
       {
-        name: name,
+        name: name.trim(),
         age: Number(age),
         role: "child"
       }
@@ -52,14 +52,75 @@ export default function KineScreen() {
     if (error) {
       console.error("Fout bij toevoegen patiënt:", error)
       alert("Patiënt kon niet toegevoegd worden")
-    } else {
-      setName("")
-      setAge("")
-      setShowForm(false)
-      fetchPatients() // 🔁 lijst updaten
+      return
     }
+
+    setName("")
+    setAge("")
+    setShowForm(false)
+    fetchPatients()
   }
 
+  const initials = (fullName) => {
+    const parts = (fullName || "").trim().split(/\s+/).filter(Boolean)
+    return parts
+      .slice(0, 2)
+      .map((w) => w[0]?.toUpperCase())
+      .join("")
+  }
+
+  // ✅ DETAILS PAGE
+  if (selectedPatient) {
+    return (
+      <div className="kine">
+        <aside className="kineSidebar">
+          <div className="brand">
+            <img className="brandLogo" src="/images/kinedash.svg" alt="Nimbli" />
+          </div>
+
+          <nav className="sideNav">
+            <button className="sideLink active" onClick={() => setSelectedPatient(null)}>
+              <span className="icon">
+                <img src="/images/dashboard.svg" alt="" />
+              </span>
+              Dashboard
+            </button>
+
+            <button className="sideLink">
+              <span className="icon">
+                <img src="/images/oef-icon.svg" alt="" />
+              </span>
+              Oefeningen
+            </button>
+
+            <button className="sideLink">
+              <span className="icon">
+                <img src="/images/settings.svg" alt="" />
+              </span>
+              Instellingen
+            </button>
+          </nav>
+        </aside>
+
+        <main className="kineMain">
+          <PatientDetails
+            patient={{
+              ...selectedPatient,
+              startDate: selectedPatient.startDate || "2026-02-15",
+              goal: selectedPatient.goal || "Motorische ontwikkeling ondersteunen",
+              parentName: selectedPatient.parentName || "Sarah Jansen",
+              parentRole: selectedPatient.parentRole || "Ouder/verzorger",
+              parentEmail: selectedPatient.parentEmail || "sarah.jansen@email.com",
+              parentPhone: selectedPatient.parentPhone || "+31 6 1234 5678"
+            }}
+            onBack={() => setSelectedPatient(null)}
+          />
+        </main>
+      </div>
+    )
+  }
+
+  // ✅ DASHBOARD
   return (
     <div className="kine">
       {/* SIDEBAR */}
@@ -110,10 +171,7 @@ export default function KineScreen() {
         <section className="patients">
           <div className="patientsHeader">
             <h2>Mijn Patiënten</h2>
-            <button
-              className="btn btn-primary"
-              onClick={() => setShowForm(true)}
-            >
+            <button className="btn btn-primary" onClick={() => setShowForm(true)}>
               Patiënt toevoegen
             </button>
           </div>
@@ -123,14 +181,9 @@ export default function KineScreen() {
               <span className="searchIcon">
                 <img src="/images/search-icon.svg" alt="" />
               </span>
-              <input
-                placeholder="Zoek patiënt..."
-                // value={query}
-                // onChange={(e) => setQuery(e.target.value)}
-              />
+              <input placeholder="Zoek patiënt..." />
             </div>
           </div>
-
 
           {/* FORMULIER */}
           {showForm && (
@@ -152,59 +205,63 @@ export default function KineScreen() {
                 <button className="btn btn-primary" onClick={addPatient}>
                   Opslaan
                 </button>
-                <button
-                  className="btn"
-                  onClick={() => setShowForm(false)}
-                >
+                <button className="btn" onClick={() => setShowForm(false)}>
                   Annuleren
                 </button>
               </div>
             </div>
           )}
 
-{patients.length === 0 && !showForm ? (
-  <div className="emptyState">
-    <img
-      className="monkey"
-      src="/images/EmptyState-geenpatienten.png"
-      alt="Geen patiënten"
-    />
-    <p>Je hebt nog geen patiënten</p>
-  </div>
-) : (
-  <div className="patientsGrid">
-    {patients.map((p) => (
-      <div key={p.id} className="patientCard">
-        <div className="pcTop">
-          <div className="avatar">
-            {p.name?.split(" ").map(w => w[0]).slice(0,2).join("").toUpperCase()}
-          </div>
+          {patients.length === 0 && !showForm ? (
+            <div className="emptyState">
+              <img
+                className="monkey"
+                src="/images/EmptyState-geenpatienten.png"
+                alt="Geen patiënten"
+              />
+              <p>Je hebt nog geen patiënten</p>
+            </div>
+          ) : (
+            <div className="patientsGrid">
+              {patients.map((p) => (
+                <div
+                  key={p.id}
+                  className="patientCard"
+                  onClick={() => setSelectedPatient(p)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") setSelectedPatient(p)
+                  }}
+                >
+                  <div className="pcTop">
+                    <div className="avatar">{initials(p.name)}</div>
 
-          <div className="pcInfo">
-            <div className="pcName">{p.name}</div>
-            <div className="pcAge">{p.age} jaar</div>
-          </div>
+                    <div className="pcInfo">
+                      <div className="pcName">{p.name}</div>
+                      <div className="pcAge">{p.age} jaar</div>
+                    </div>
 
-          <div className="trend">↗ +23%</div>
-        </div>
+                    <div className="trend">↗ +23%</div>
+                  </div>
 
-        <div className="pcProgram">knie revalidatie</div>
+                  <div className="pcProgram">knie revalidatie</div>
 
-        <div className="pcLast">
-          <span className="dot" />
-          Laatste sessie: Vandaag
-        </div>
+                  <div className="pcLast">
+                    <span className="dot" />
+                    Laatste sessie: Vandaag
+                  </div>
 
-        <div className="pcProgress">
-          <div className="bar">
-            <div className="fill" style={{ width: "60%" }} />
-          </div>
-          <div className="pct">60%</div>
-        </div>
-      </div>
-    ))}
-  </div>
-)}
+                  <div className="pcProgress">
+                    <div className="bar">
+                      <div className="fill" style={{ width: "60%" }} />
+                    </div>
+                    <div className="pct">60%</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </section>
       </main>
     </div>
